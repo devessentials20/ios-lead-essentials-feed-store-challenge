@@ -5,42 +5,8 @@
 import XCTest
 import FeedStoreChallenge
 
-class InMemoryFeedStore: FeedStore {
-    private var cache = [(feed: [LocalFeedImage], timestamp: Date)]()
-    
-    func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        if cache.count > 0 {
-            cache.remove(at: 0)
-        }
-        completion(nil)
-    }
-    
-    func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        if cache.count > 0 {
-            cache[0] = (feed: feed, timestamp: timestamp)
-        } else {
-            cache.append((feed: feed, timestamp: timestamp))
-        }
-        
-        completion(nil)
-    }
-    
-    func retrieve(completion: @escaping RetrievalCompletion) {
-        guard let result = cache.first else { return completion(.empty) }
-        
-        completion(.found(feed: result.feed, timestamp: result.timestamp))
-    }
-    
-}
-
 class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	
-//
-//   We recommend you to implement one test at a time.
-//   Uncomment the test implementations one by one.
-// 	 Follow the process: Make the test pass, commit, and move to the next one.
-//
-
 	func test_retrieve_deliversEmptyOnEmptyCache() {
 		let sut = makeSUT()
 
