@@ -36,7 +36,12 @@ Finally, add to this README file:
 
 ### Comments and remarks you think other developers will find useful.
 
-...
+1. The persistent infrastructure is implemented using 'InMemory' persistent stack.
+2. To represent persisten stack, we have used Swift "Array" with 'Tuple' as its value. 
+3. "Tuple" consists of list of FeedImages and Timestamp.
+4. Since we are considering single ImageFeed persistence, we have targetted 'O'th index of an Array to retrieve and insert feed.
+5. Used 'Array' considering future requirements of managing more than one feeds in persistent store.
+
 
 ### The Dependency Diagram demonstrating the architecture of your solution. 
 
