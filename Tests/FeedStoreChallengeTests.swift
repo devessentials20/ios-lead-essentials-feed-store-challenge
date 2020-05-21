@@ -9,6 +9,9 @@ class InMemoryFeedStore: FeedStore {
     private var cache = [(feed: [LocalFeedImage], timestamp: Date)]()
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
+        if cache.count > 0 {
+            cache.remove(at: 0)
+        }
         completion(nil)
     }
     
@@ -99,9 +102,9 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	}
 
 	func test_delete_emptiesPreviouslyInsertedCache() {
-//		let sut = makeSUT()
-//
-//		assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
+		let sut = makeSUT()
+
+		assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
 	}
 
 	func test_storeSideEffects_runSerially() {
