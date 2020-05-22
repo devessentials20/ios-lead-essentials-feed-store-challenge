@@ -35,9 +35,14 @@ We advise you to invest some time and effort to produce a clean and well-present
 Finally, add to this README file:
 
 ### Comments and remarks you think other developers will find useful.
-
-...
+#### Implementation with NSCache as InMemory persistent stack
+1. Used NSCache as a persistent stack.
+2. Since NSCache is an ObjC class, it needs reference types for it's keys and values. So introduced classes to represent "Cache" and "Key"
+3. Instead of declaring "Key" inside the 'FeedStore Infrastructure', have injected it from outside to keep 'FeedStore Infrastructure' reusable for other keys as well.
+4. There are no failable test cases possible for inMemory Feed Store, because it may only fails when there will be no memory left on a device; in that case App itself will crash.
+5. Considered 'InMemoryCacheFeedStore' in-memory operations will not block the users.
 
 ### The Dependency Diagram demonstrating the architecture of your solution. 
 
-...
+![InMemory_Cache_FeedStore_Dependency_Diagram](FeedStore_InMemory_Cache_Dependency_Diagram.png)
+
