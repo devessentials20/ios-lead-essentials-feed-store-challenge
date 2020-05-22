@@ -19,13 +19,17 @@ class InMemoryCacheFeedStore: FeedStore {
     private final class Key {
         private let key: String
         
-        init(key: String) {
+        init(_ key: String) {
             self.key = key
         }
     }
     
-    private var key = Key(key: "InMemoryCacheKey")
+    private var key: Key
     private var memoryCache = NSCache<Key, Cache>()
+    
+    init(key: String) {
+        self.key = Key(key)
+    }
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         if let _ = memoryCache.object(forKey: key) {
@@ -134,7 +138,7 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	// - MARK: Helpers
 	
 	private func makeSUT() -> FeedStore {
-        let sut = InMemoryCacheFeedStore()
+        let sut = InMemoryCacheFeedStore(key: "InMemoryFeed")
         return sut
 	}
 	
