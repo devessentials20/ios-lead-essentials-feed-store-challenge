@@ -6,17 +6,42 @@ import XCTest
 import FeedStoreChallenge
 
 class InMemoryCacheFeedStore: FeedStore {
+    final class Cache {
+        internal let feed: [LocalFeedImage]
+        internal let timestamp: Date
+        
+        init(feed: [LocalFeedImage], timestamp: Date) {
+            self.feed = feed
+            self.timestamp = timestamp
+        }
+    }
+    
+    private final class Key {
+        private let key: String
+        
+        init(key: String) {
+            self.key = key
+        }
+    }
+    
+    private var key = Key(key: "InMemoryCacheKey")
+    private var memoryCache = NSCache<Key, Cache>()
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         
     }
     
     func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        
+        let cache = Cache(feed: feed, timestamp: timestamp)
+        memoryCache.setObject(cache, forKey: key)
+        completion(nil)
     }
     
     func retrieve(completion: @escaping RetrievalCompletion) {
-        completion(.empty)
+        guard let cache = memoryCache.object(forKey: key) else {
+            return completion(.empty)
+        }
+        completion(.found(feed: cache.feed, timestamp: cache.timestamp))
     }
     
     
@@ -43,9 +68,9 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	}
 
 	func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
-//		let sut = makeSUT()
-//
-//		assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
+		let sut = makeSUT()
+
+		assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
 	}
 
 	func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
