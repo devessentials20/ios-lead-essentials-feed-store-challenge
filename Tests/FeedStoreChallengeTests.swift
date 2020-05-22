@@ -28,10 +28,10 @@ class InMemoryCacheFeedStore: FeedStore {
     private var memoryCache = NSCache<Key, Cache>()
     
     func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        guard let _ = memoryCache.object(forKey: key) else {
-            return completion(nil)
+        if let _ = memoryCache.object(forKey: key) {
+            memoryCache.removeObject(forKey: key)
         }
-        memoryCache.removeObject(forKey: key)
+
         completion(nil)
     }
     
