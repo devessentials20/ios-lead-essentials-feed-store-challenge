@@ -51,18 +51,10 @@ class InMemoryCacheFeedStore: FeedStore {
         }
         completion(.found(feed: cache.feed, timestamp: cache.timestamp))
     }
-    
-    
 }
 
 class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	
-//
-//   We recommend you to implement one test at a time.
-//   Uncomment the test implementations one by one.
-// 	 Follow the process: Make the test pass, commit, and move to the next one.
-//
-
 	func test_retrieve_deliversEmptyOnEmptyCache() {
 		let sut = makeSUT()
 
