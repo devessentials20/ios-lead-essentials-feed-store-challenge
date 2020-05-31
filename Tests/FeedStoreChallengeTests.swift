@@ -82,7 +82,7 @@ class FeedStoreChallengeTests: XCTestCase, FeedStoreSpecs {
 	// - MARK: Helpers
 	
 	private func makeSUT() -> FeedStore {
-        let sut = InMemoryCacheFeedStore(key: "InMemoryFeed")
+        let sut = InMemoryCacheFeedStore()
         return sut
 	}
 	
