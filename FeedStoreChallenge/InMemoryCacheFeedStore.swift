@@ -25,10 +25,7 @@ public class InMemoryCacheFeedStore: FeedStore {
     public init() {}
     
     public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        if let _ = memoryCache.object(forKey: key) {
-            memoryCache.removeObject(forKey: key)
-        }
-
+        memoryCache.removeObject(forKey: key)
         completion(nil)
     }
     
