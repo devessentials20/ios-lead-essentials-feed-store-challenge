@@ -19,20 +19,10 @@ public class InMemoryCacheFeedStore: FeedStore {
         }
     }
     
-    private final class Key {
-        private let key: String
-        
-        init(_ key: String) {
-            self.key = key
-        }
-    }
-    
-    private var key: Key
-    private var memoryCache = NSCache<Key, Cache>()
-    
-    public init(key: String) {
-        self.key = Key(key)
-    }
+    private let key = NSUUID()
+    private let memoryCache = NSCache<NSUUID, Cache>()
+
+    public init() {}
     
     public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         if let _ = memoryCache.object(forKey: key) {
